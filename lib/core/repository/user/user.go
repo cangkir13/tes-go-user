@@ -31,20 +31,20 @@ func (repo *UserRepository) GetOneByID(ctx context.Context, userID int) (output 
 }
 
 type UserFieldsData struct {
-	Name      *string
-	Email     *string
+	Name      string
+	Email     string
 	Password  *string
-	RoleID    *int
+	RoleID    int
 	Status    *int
 	UpdatedAt *time.Time
 }
 
 func (fields *UserFieldsData) toModel() model.User {
 	return model.User{
-		Name:      *fields.Name,
-		Email:     *fields.Email,
+		Name:      fields.Name,
+		Email:     fields.Email,
 		Password:  *fields.Password,
-		RoleID:    *fields.RoleID,
+		RoleID:    fields.RoleID,
 		UpdatedAt: *fields.UpdatedAt,
 	}
 }
@@ -97,7 +97,7 @@ func (repo *UserRepository) UpdateOne(ctx context.Context, userID int, props Upd
 
 func (repo *UserRepository) DeleteOne(ctx context.Context, userID int) error {
 	query := repo.DB.WithContext(ctx)
-	if err := query.Where("id = ?", userID).Error; err != nil {
+	if err := query.Where("id = ?", userID).Delete(&model.User{}).Error; err != nil {
 		return err
 	}
 
