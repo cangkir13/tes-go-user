@@ -15,4 +15,6 @@ var _ UserUsecaseInterface = &UserUsecase{}
 
 type UserUsecaseInterface interface {
 	GetListUser(ctx context.Context) ([]*model.User, error)
+	GetOneByID(ctx context.Context, userID int) (*model.User, error)
+	CreateOne(ctx context.Context, props model.User) (int, error)
 }
